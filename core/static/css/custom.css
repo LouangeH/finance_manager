@@ -1,0 +1,170 @@
+/* Couleurs principales */
+:root {
+    --color-primary: #ffb35d; /* Orange clair */
+    --color-dark: #343a40; /* Couleur sombre pour le sidebar et la navbar */
+    --color-light: #ffffff; /* Blanc */
+    --color-accent: #ff9f43; /* Accentuation plus vive (optionnelle) */
+}
+
+/* Navbar */
+.navbar {
+    background-color: var(--color-dark);
+    color: var(--color-light);
+}
+
+.navbar .navbar-brand {
+    color: var(--color-light);
+}
+
+.navbar .nav-link {
+    color: var(--color-light);
+    transition: color 0.3s ease;
+}
+
+.navbar .nav-link:hover {
+    color: var(--color-primary);
+}
+
+.navbar .dropdown-menu {
+    background-color: var(--color-dark);
+    color: var(--color-light);
+}
+
+.navbar .dropdown-menu a {
+    color: var(--color-primary);
+}
+
+/* Sidebar */
+.sidebar {
+    background-color: var(--color-dark);
+    color: var(--color-light);
+}
+
+.sidebar a {
+    color: var(--color-light);
+    text-decoration: none;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.sidebar a:hover {
+    background-color: var(--color-primary);
+    color: var(--color-dark);
+}
+
+/* Contenu Principal */
+.main-content {
+    width: 100%;
+    background-color: var(--color-light);
+    color: var(--color-dark);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Boutons */
+.btn-primary {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+.btn-primary:hover {
+    background-color: var(--color-accent);
+    border-color: var(--color-accent);
+}
+
+.btn-enregistre{
+    background-color: #1506f0;
+    border-color: #1506f0;
+}
+
+.btn-enregistre:hover {
+    background-color: var(--color-accent);
+    border-color: var(--color-accent);
+}
+/* Footer */
+footer {
+    background-color: var(--color-dark);
+    color: var(--color-light);
+    padding: 15px;
+    text-align: center;
+}
+
+/* Styles de base pour les tableaux */
+.table {
+    width: 100%; /* Le tableau occupe toute la largeur disponible */
+    border-collapse: collapse; /* Fusionne les bordures */
+    margin-bottom: 20px; /* Ajoute un espacement sous le tableau */
+    font-size: 0.9rem; /* Taille du texte légèrement réduite */
+    color: #343a40; /* Couleur sombre pour le texte */
+}
+
+/* Bordures entre les colonnes */
+.table th,
+.table td {
+    border: 1px solid #ddd; /* Ajoute une bordure légère entre les colonnes */
+    padding: 10px; /* Ajoute de l'espace autour du contenu */
+    text-align: left; /* Texte aligné à gauche par défaut */
+    white-space: nowrap; /* Empêche les textes longs d'être coupés */
+}
+
+/* Ajout de couleur alternée pour les lignes */
+.table tbody tr:nth-child(odd) {
+    background-color: #f9f9f9; /* Couleur claire */
+}
+
+.table tbody tr:nth-child(even) {
+    background-color: #ffffff; /* Blanc */
+}
+
+/* Styles spécifiques pour l'en-tête */
+.table th {
+    background-color: #343a40; /* Couleur sombre */
+    color: #ffffff; /* Texte blanc */
+    font-weight: bold;
+    text-align: center; /* Centre le texte des en-têtes */
+}
+
+/* Limitation de la largeur des colonnes */
+.table td {
+    max-width: 150px; /* Limite la largeur des colonnes */
+    overflow: hidden; /* Masque le texte qui dépasse */
+    text-overflow: ellipsis; /* Ajoute "..." si le texte dépasse */
+}
+
+/* Effet au survol */
+.table tbody tr:hover {
+    background-color: #ffb35d; /* Couleur orange clair pour le survol */
+    color: #ffffff; /* Texte blanc lors du survol */
+}
+
+
+
+/* Thème sombre */
+body.theme-sombre {
+    --color-primary: #212529; /* Couleur sombre principale */
+    --color-dark: #000000; /* Noir profond */
+    --color-light: #ffffff; /* Blanc cassé */
+    --color-accent: #ff9f43; /* Accentuation vive */
+    background-color: var(--color-dark);
+    color: var(--color-light);
+}
+
+body.theme-sombre .navbar {
+    background-color: var(--color-dark);
+    color: var(--color-light);
+}
+
+body.theme-sombre .sidebar {
+    background-color: var(--color-dark);
+    color: var(--color-light);
+}
+
+body.theme-sombre .main-content {
+    background-color: var(--color-primary);
+    color: var(--color-light);
+}
+
+body.theme-sombre footer {
+    background-color: var(--color-dark);
+    color: var(--color-light);
+}

@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}Résultats de recherche{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Résultats de recherche</h2>
+    {% if query %}
+        <p>Résultats pour la recherche : "<strong>{{ query }}</strong>"</p>
+    {% endif %}
+    
+    {% if results.lapins or results.reproductions or results.traitements %}
+        {% if results.lapins %}
+            <h3>Lapins</h3>
+            <ul>
+                {% for lapin in results.lapins %}
+                    <li>{{ lapin.nom }} ({{ lapin.race }})</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        
+        {% if results.reproductions %}
+            <h3>Reproductions</h3>
+            <ul>
+                {% for reproduction in results.reproductions %}
+                    <li>{{ reproduction }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        
+        {% if results.traitements %}
+            <h3>Traitements</h3>
+            <ul>
+                {% for traitement in results.traitements %}
+                    <li>{{ traitement.nom }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% else %}
+        <p>Aucun résultat trouvé.</p>
+    {% endif %}
+</div>
+{% endblock %}

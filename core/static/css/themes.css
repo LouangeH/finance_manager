@@ -1,0 +1,67 @@
+/* Thème sombre */
+body.theme-sombre {
+    --color-primary: #212529;
+    --color-dark: #000000;
+    --color-light: #ffffff;
+    --color-accent: #ff9f43;
+    background-color: var(--color-dark);
+    color: var(--color-light);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body.theme-sombre .navbar,
+body.theme-sombre .sidebar,
+body.theme-sombre footer {
+    background-color: var(--color-dark);
+    color: var(--color-light);
+}
+
+body.theme-sombre a {
+    color: var(--color-accent);
+}
+
+body.theme-sombre a:hover {
+    color: var(--color-light);
+}
+
+/* Cartes */
+body.theme-sombre .card {
+    background-color: var(--color-dark);
+    color: var(--color-light);
+    border: 1px solid var(--color-light);
+}
+
+body.theme-sombre .card-header {
+    background-color: var(--color-primary);
+    color: var(--color-dark);
+}
+
+/* Tableaux */
+body.theme-sombre .table {
+    color: var(--color-light);
+    background-color: var(--color-dark);
+}
+
+body.theme-sombre .table th,
+body.theme-sombre .table td {
+    border-color: var(--color-light);
+}
+
+body.theme-sombre .table tbody tr:hover {
+    background-color: var(--color-primary);
+    color: var(--color-dark);
+}
+
+/* Formulaires */
+body.theme-sombre input,
+body.theme-sombre select,
+body.theme-sombre textarea {
+    background-color: var(--color-dark);
+    color: var(--color-light);
+    border: 1px solid var(--color-light);
+}
+
+body.theme-sombre input::placeholder,
+body.theme-sombre textarea::placeholder {
+    color: var(--color-light);
+}

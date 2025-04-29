@@ -1,0 +1,35 @@
+/* Couleurs principales */
+:root {
+    --color-primary: #ffb35d; /* Orange clair */
+    --color-dark: #343a40; /* Couleur sombre */
+    --color-light: #ffffff; /* Blanc */
+    --color-accent: #ff9f43; /* Accentuation vive */
+}
+
+/* Typographie de base */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Boutons */
+.btn-primary {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+.btn-primary:hover {
+    background-color: var(--color-accent);
+    border-color: var(--color-accent);
+}
+
+.btn-enregistre {
+    background-color: #1506f0;
+    border-color: #1506f0;
+}
+
+.btn-enregistre:hover {
+    background-color: var(--color-accent);
+    border-color: var(--color-accent);
+}

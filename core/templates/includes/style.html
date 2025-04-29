@@ -1,0 +1,81 @@
+<style>
+    /* Fix Navbar */
+   .navbar {
+       position: fixed;
+       top: 0;
+       width: 100%;
+       background-color:rgb(0, 0, 0);
+       z-index: 1030; /* Plus grand que le sidebar */
+       display: flex;
+        align-items: center;
+        justify-content: space-between;
+   }
+
+   /* Fix Sidebar */
+   .sidebar {
+       position: fixed;
+       top: 56px; /* Correspond à la hauteur de la navbar */
+       bottom: 0;
+       left: 0;
+       width: 300px; /* Largeur fixe du sidebar */
+       background-color: #f8f9fa;
+       overflow-y: auto;
+       z-index: 1000; /* Moins que la navbar */
+   }
+
+   /* Décalage Contenu Principal */
+   .main-content {
+       margin-top: 56px; /* Décalage sous la navbar */
+       margin-left: 300px; /* Décalage pour le sidebar */
+       padding: 20px;
+   }
+
+   /* Fix Footer */
+   footer {
+       position: fixed;
+       bottom: 0;
+       left: 250px; /* Décalage aligné au contenu */
+       width: calc(100% - 250px); /* Largeur restant après le sidebar */
+       background-color: #f8f9fa;
+       text-align: center;
+       z-index: 999; /* Juste au-dessus du contenu principal */
+   }
+
+   /* Style de la Navbar */
+
+
+/* Centrer les Icônes */
+.nav-link {
+    font-size: 1.25rem;
+    position: relative;
+}
+
+/* Badge sur les Messages */
+.nav-link .badge {
+    font-size: 0.75rem;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#sidebar {
+    width: 200px;
+    transition: width 0.3s ease;
+}
+
+#mainContent {
+    transition: margin-left 0.3s ease;
+    margin-left: -200px;
+}
+
+#sidebar.collapsed {
+    width: 0;
+}
+
+#mainContent.expanded {
+    margin-left: 300;
+}
+
+</style>
