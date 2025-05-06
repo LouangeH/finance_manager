@@ -1,10 +1,12 @@
 from django.urls import path
 from app.views import user, accueil, revenue, depense,bank, cat_bank, cat_depense, cat_revenue
+from app.views import generate_pdf
 
 urlpatterns = [
     path('', accueil.dashboard, name='dashboard'),
 
     path('revenues/', revenue.revenue_list, name='revenue_list'),
+    path('revenu/<int:revenu_id>/pdf/', generate_pdf.revenu_pdf_view, name='revenu_pdf'),
     path('ajouter-revenue/', revenue.create_revenue, name='create_revenue'),
     path('modifier-revenue/<int:pk>/', revenue.edit_revenue, name='edit_revenue'),
     path('supprimer-revenue/<int:pk>/', revenue.delete_revenue, name='delete_revenue'),
@@ -20,6 +22,7 @@ urlpatterns = [
     path('supprimer-cat-depense/<int:pk>/', cat_depense.delete_cat_depense, name='delete_cat_depense'),
 
     path('depenses/', depense.depense_list, name='depense_list'),
+    path('depense/<int:depense_id>/pdf/', generate_pdf.depense_pdf_view, name='depense_pdf'),
     path('ajouter-depense/', depense.create_depense, name='create_depense'),
     path('modifier-depense/<int:pk>/', depense.edit_depense, name='edit_depense'),
     path('supprimer-depense/<int:pk>/', depense.delete_depense, name='delete_depense'),

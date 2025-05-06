@@ -46,6 +46,9 @@
             <td>
                 <a href="{% url 'edit_depense' s.id %}" class="btn btn-sm btn-warning">Modifier</a>
                 <a href="{% url 'delete_depense' s.id %}" class="btn btn-sm btn-danger">Supprimer</a>
+                <a href="{% url 'depense_pdf' s.id %}" class="btn btn-sm btn-outline-success">
+                    Télécharger le PDF
+                </a>
             </td>
         </tr>
         {% endfor %}

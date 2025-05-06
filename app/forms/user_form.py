@@ -12,3 +12,5 @@ class RegisterForm(UserCreationForm):
     class Meta:
         model = User
         fields = ['username', 'email', 'password1', 'password2']
+
+# Peux-tu m'aider a integrer une pour faire la budgetisation annuel et il va me fournir un budget mensuel realiste et applicable pour me permettre a atteindre le budget annuel? explique-moi comment le faire? 

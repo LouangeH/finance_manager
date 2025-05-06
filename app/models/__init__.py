@@ -5,3 +5,4 @@ from .revenu import Revenu
 from .depense import Depense
 from .user import UserProfile
 from .bank import BankOperation
+from .pdf import RevenuPDF, DepensePDF
