@@ -1,0 +1,78 @@
+{% extends 'fuel/base.html' %}
+
+{% load humanize %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="text-center text-primary fw-bold mb-4">Tableau de Bord Financier</h1>
+    <p class="text-center text-muted">Suivez vos revenus, dépenses et opérations bancaires en un clin d'œil.</p>
+
+    <div class="row mt-4">
+        <!-- Colonne Gauche -->
+        <div class="col-md-6">
+
+            <div class="card shadow mb-4 border-danger">
+                <div class="card-body text-center">
+                    <h5 class="card-title text-danger">Total Dépenses</h5>
+                    <p class="display-4 text-danger">{{ depenses|intcomma }} FBu</p>
+                    <i class="fas fa-credit-card fa-2x text-danger"></i>
+                </div>
+            </div>
+
+            <div class="card shadow mb-4 border-success">
+                <div class="card-body text-center">
+                    <h5 class="card-title text-success">Total Revenus</h5>
+                    <p class="display-4 text-success">{{ revenus|intcomma }} FBu</p>
+                    <i class="fas fa-coins fa-2x text-success"></i>
+                </div>
+            </div>
+
+            <div class="card shadow mb-4 border-dark">
+                <div class="card-body text-center">
+                    <h5 class="card-title text-dark">Solde en Caisse</h5>
+                    <p class="display-4 text-dark">{{ solde_caisse|intcomma }} FBu</p>
+                    <i class="fas fa-wallet fa-2x text-dark"></i>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Colonne Droite -->
+        <div class="col-md-6">
+
+            <div class="card shadow mb-4 border-primary">
+                <div class="card-body text-center">
+                    <h5 class="card-title text-primary">Solde en Banque</h5>
+                    <p class="display-4 text-primary">{{ solde_banque|intcomma }} FBu</p>
+                    <i class="fas fa-university fa-2x text-primary"></i>
+                </div>
+            </div>
+
+            <div class="card shadow mb-4 border-warning">
+                <div class="card-body text-center">
+                    <h5 class="card-title text-warning">Total Dépôts</h5>
+                    <p class="display-6 text-warning">{{ total_depots|intcomma }} FBu</p>
+                    <i class="fas fa-arrow-down fa-2x text-warning"></i>
+                </div>
+            </div>
+
+            <div class="card shadow mb-4 border-danger">
+                <div class="card-body text-center">
+                    <h5 class="card-title text-danger">Total Retraits</h5>
+                    <p class="display-6 text-danger">{{ total_retraits|intcomma }} FBu</p>
+                    <i class="fas fa-arrow-up fa-2x text-danger"></i>
+                </div>
+            </div>
+
+            <div class="card shadow mb-4 border-secondary">
+                <div class="card-body text-center">
+                    <h5 class="card-title text-muted">Frais de Tenue de Compte</h5>
+                    <p class="display-6 text-muted">{{ total_tenue|intcomma }} FBu</p>
+                    <i class="fas fa-receipt fa-2x text-muted"></i>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

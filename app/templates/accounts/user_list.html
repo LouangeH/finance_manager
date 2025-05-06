@@ -1,0 +1,56 @@
+{% extends 'fuel/base.html' %}
+
+{% load humanize %}
+{% block content %}
+<h2>Liste des utilisateurs</h2>
+<a href="{% url 'register' %}" class="btn btn-primary mb-3">+ Creer un nouveau utilisateur</a>
+<hr>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Nom d'utilisateur</th>
+            <th>E-mail</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for s in user %}
+        <tr>
+            <td>{{ s.username }}</td>
+            <td>{{ s.email }}</td>
+            <td>
+                <a href="{% url 'update_user' s.id %}" class="btn btn-sm btn-warning">Modifier</a>
+                <a href="{% url 'delete_user' s.id %}" class="btn btn-sm btn-danger">Supprimer</a>
+
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="6" class="text-center">Aucun utilisateur disponible pour l'instant.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<!-- Pagination -->
+<nav aria-label="Pagination des lapins">
+    <ul class="pagination justify-content-center">
+        {% if page_obj.has_previous %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Précédent</a>
+        </li>
+        {% endif %}
+        {% for num in page_obj.paginator.page_range %}
+        <li class="page-item {% if num == page_obj.number %}active{% endif %}">
+            <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+        </li>
+        {% endfor %}
+        {% if page_obj.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.next_page_number }}">Suivant</a>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
+
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends "fuel/base.html" %}
+{% block content %}
+<h2>Créer un compte</h2>
+<form method="post" class="p-4 bg-white rounded shadow-sm">
+    {% csrf_token %}
+    {% for field in form %}
+        <div class="mb-3">
+            <label class="form-label">{{ field.label }}</label>
+            {{ field }}
+            <div class="text-danger">{{ field.errors }}</div>
+        </div>
+    {% endfor %}
+    <button class="btn btn-success w-100">Créer un compte</button>
+</form>
+{% comment %} <p class="mt-2 text-center">Déjà un compte ? <a href="{% url 'login' %}">Se connecter</a></p> {% endcomment %}
+{% endblock %}

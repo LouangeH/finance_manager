@@ -1,0 +1,36 @@
+{% extends "fuel/base.html" %}
+{% block content %}
+<div class="container mt-4">
+    <h3>{% if form.instance.pk %}Modifier{% else %}Nouvelle{% endif %} opération bancaire</h3>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-success">Enregistrer</button>
+        <a href="{% url 'bankoperation_list' %}" class="btn btn-secondary">Annuler</a>
+    </form>
+</div>
+
+<div id="bank-solde" class="alert alert-info mt-2" style="display:none;"></div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const bankSelect = document.querySelector('#id_bank');
+        const soldeDiv = document.querySelector('#bank-solde');
+
+        bankSelect.addEventListener('change', function () {
+            const bankId = this.value;
+            if (bankId) {
+                fetch(`/api/solde-banque/${bankId}/`)
+                    .then(response => response.json())
+                    .then(data => {
+                        soldeDiv.style.display = 'block';
+                        soldeDiv.textContent = `Solde actuel: ${data.solde.toLocaleString()} FBu`;
+                    });
+            } else {
+                soldeDiv.style.display = 'none';
+            }
+        });
+    });
+</script>
+
+{% endblock %}

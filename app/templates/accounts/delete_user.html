@@ -1,0 +1,14 @@
+{% extends 'fuel/base.html' %}
+{% block title %}Supprimer l'utilisateur{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Supprimer {{ user.username }}</h1>
+    <p>Êtes-vous sûr de vouloir supprimer cette utilisateur {{ user.username }} ?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Oui, supprimer</button>
+    </form>
+    <a href="{% url 'expense_list' %}">Annuler</a>
+</div>
+{% endblock %}

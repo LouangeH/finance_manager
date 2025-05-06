@@ -1,0 +1,17 @@
+{% extends "fuel/base_login.html" %}
+{% block content %}
+<h2>Connexion</h2>
+<form method="post" class="p-4 bg-white rounded shadow-sm">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    {% for field in form %}
+        <div class="mb-3">
+            <label class="form-label">{{ field.label }}</label>
+            {{ field }}
+            <div class="text-danger">{{ field.errors }}</div>
+        </div>
+    {% endfor %}
+    <button class="btn btn-primary w-100">Se connecter</button>
+</form>
+<p class="mt-2 text-center">Pas de compte ? <a href="{% url 'register' %}">Créer un compte</a></p>
+{% endblock %}

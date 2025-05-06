@@ -1,0 +1,15 @@
+{% extends 'fuel/base.html' %}
+{% load humanize %}
+{% block title %}Supprimer une Revenue{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Supprimer {{ revenues.source }}</h1>
+    <p>Êtes-vous sûr de vouloir supprimer cette revenue de {{ revenues.somme|intcomma }} FBu?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Oui, supprimer</button>
+    </form>
+    <a href="{% url 'revenue_list' %}">Annuler</a>
+</div>
+{% endblock %}

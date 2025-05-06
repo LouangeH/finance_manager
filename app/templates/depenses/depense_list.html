@@ -1,0 +1,149 @@
+{% extends 'fuel/base.html' %}
+
+{% comment %} {% load humanize %}
+{% block content %}
+<h2>Liste des depenses</h2>
+<a href="{% url 'create_depense' %}" class="btn btn-primary mb-3">+ Ajouter une dépense</a>
+<hr>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Type de Depense</th>
+            <th>Source</th>
+            <th>Somme</th>
+            <th>Date faite</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for s in depenses %}
+        <tr>
+            <td>{{ s.depense }}</td>
+            <td>{{ s.description }}</td>
+            <td>{{ s.somme|intcomma }} FBu</td>
+            <td>{{ s.date|naturaltime }}</td>
+            <td>
+                <a href="{% url 'edit_depense' s.id %}" class="btn btn-sm btn-warning">Modifier</a>
+                <a href="{% url 'delete_depense' s.id %}" class="btn btn-sm btn-danger">Supprimer</a>
+
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="6" class="text-center">Aucun depense effectué pour l'instant.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<!-- Pagination -->
+<nav aria-label="Pagination des lapins">
+    <ul class="pagination justify-content-center">
+        {% if page_obj.has_previous %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Précédent</a>
+        </li>
+        {% endif %}
+        {% for num in page_obj.paginator.page_range %}
+        <li class="page-item {% if num == page_obj.number %}active{% endif %}">
+            <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+        </li>
+        {% endfor %}
+        {% if page_obj.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.next_page_number }}">Suivant</a>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
+
+{% endblock %} {% endcomment %}
+
+{% load humanize %}
+
+{% block content %}
+<h2>Liste des dépenses</h2>
+
+<a href="{% url 'create_depense' %}" class="btn btn-primary mb-3">+ Ajouter une dépense</a>
+
+<!-- Filtrage -->
+<form id="filter-form" method="get" class="form-inline mb-3">
+    <select name="type" class="form-control mr-2" onchange="this.form.submit()">
+        <option value="">-- Tous les types --</option>
+        {% for cat in categories %}
+        <option value="{{ cat.id }}" {% if cat.id|stringformat:"s" == request.GET.type %}selected{% endif %}>
+            {{ cat.categorie }}
+        </option>
+        {% endfor %}
+    </select>
+
+    <input type="month" name="periode" class="form-control mr-2"
+           max="{{ current_year }}-{{ current_month }}"
+           value="{{ request.GET.periode|default_if_none:current_year|add:"-"|add:current_month }}"
+           onchange="this.form.submit()">
+</form>
+
+<!-- Résultats -->
+{% if depenses %}
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Type de Dépense</th>
+            <th>Source</th>
+            <th>Somme</th>
+            <th>Date</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for s in depenses %}
+        <tr>
+            <td>{{ s.depense }}</td>
+            <td>{{ s.description }}</td>
+            <td>{{ s.somme|intcomma }} FBu</td>
+            <td>{{ s.date|naturaltime }}</td>
+            <td>
+                <a href="{% url 'edit_depense' s.id %}" class="btn btn-sm btn-warning">Modifier</a>
+                <a href="{% url 'delete_depense' s.id %}" class="btn btn-sm btn-danger">Supprimer</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<!-- Total -->
+<div class="alert alert-success">
+    Total des dépenses filtrées : <strong>{{ total_filtre|intcomma }} FBu</strong>
+</div>
+
+{% else %}
+<div class="alert alert-info">Aucune dépense trouvée pour ce filtre.</div>
+{% endif %}
+
+<!-- Pagination -->
+<nav aria-label="Pagination">
+    <ul class="pagination justify-content-center">
+        {% if page_obj.has_previous %}
+        <li class="page-item">
+            <a class="page-link" href="?{% if request.GET.type %}type={{ request.GET.type }}&{% endif %}
+                {% if request.GET.periode %}periode={{ request.GET.periode }}&{% endif %}
+                page={{ page_obj.previous_page_number }}">Précédent</a>
+        </li>
+        {% endif %}
+        {% for num in page_obj.paginator.page_range %}
+        <li class="page-item {% if num == page_obj.number %}active{% endif %}">
+            <a class="page-link" href="?{% if request.GET.type %}type={{ request.GET.type }}&{% endif %}
+                {% if request.GET.periode %}periode={{ request.GET.periode }}&{% endif %}
+                page={{ num }}">{{ num }}</a>
+        </li>
+        {% endfor %}
+        {% if page_obj.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="?{% if request.GET.type %}type={{ request.GET.type }}&{% endif %}
+                {% if request.GET.periode %}periode={{ request.GET.periode }}&{% endif %}
+                page={{ page_obj.next_page_number }}">Suivant</a>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
+{% endblock %}

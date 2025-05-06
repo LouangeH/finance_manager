@@ -1,0 +1,14 @@
+{% extends "fuel/base.html" %}
+{% load humanize %}
+
+{% block content %}
+<div class="container mt-4">
+    <h3>Confirmer la suppression</h3>
+    <p>Es-tu sûr de vouloir supprimer cette opération de <strong>{{ operation.montant|intcomma }} FBu</strong> ?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Supprimer</button>
+        <a href="{% url 'bankoperation_list' %}" class="btn btn-secondary">Annuler</a>
+    </form>
+</div>
+{% endblock %}

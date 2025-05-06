@@ -1,6 +1,0 @@
-from .compte_form import CompteForm
-from depense_form import DepenseForm
-from categorie_depens_form import CategorieDepenseForm
-from objectif_form import ObjectifForm
-from revenue_form import RevenueForm
-from transfert_form import TransfertFondsForm
