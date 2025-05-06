@@ -7,15 +7,6 @@ from django.db.models import Sum
 from django.utils.timezone import datetime
 
 #@login_required
-# def revenue_list(request):
-#     revenues = Revenu.objects.all().order_by('-date')
-#     paginator = Paginator(revenues, 10)  # 10 achats par page
-#     page_number = request.GET.get('page')
-#     page_obj = paginator.get_page(page_number)
-#     return render(request, 'revenues/revenue_list.html', {'page_obj': page_obj, 'revenues': revenues})
-
-
-
 def revenue_list(request):
     revenues = Revenu.objects.all().order_by('-date')
 

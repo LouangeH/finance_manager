@@ -8,13 +8,6 @@ from django.db.models import Sum
 from django.utils.timezone import datetime
 
 #@login_required
-# def bank_operation_list(request):
-#     operations = BankOperation.objects.order_by('-date')
-#     paginator = Paginator(operations, 10)  # 10 achats par page
-#     page_number = request.GET.get('page')
-#     page_obj = paginator.get_page(page_number)
-#     return render(request, 'bank/operation_list.html', {'operations': operations, 'page_obj': page_obj})
-
 def bank_operation_list(request):
     operations = BankOperation.objects.all().order_by('-date')
 

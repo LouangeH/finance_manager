@@ -5,29 +5,6 @@ class BankOperationForm(forms.ModelForm):
     class Meta:
         model = BankOperation
         fields = ['bank','type_operation', 'montant', 'motif']
-
-    # def clean(self):
-    #     cleaned_data = super().clean()
-    #     type_operation = cleaned_data.get('type_operation')
-    #     montant = cleaned_data.get('montant')
-    #     bank = cleaned_data.get('bank')
-
-    #     if type_operation in ['retrait', 'tenue'] and bank and montant:
-    #         from app.models import BankOperation
-    #         from django.db.models import Sum
-
-    #         operations = BankOperation.objects.filter(bank=bank)
-
-    #         total_depot = operations.filter(type_operation='depot').aggregate(Sum('montant'))['montant__sum'] or 0
-    #         total_retrait = operations.filter(type_operation='retrait').aggregate(Sum('montant'))['montant__sum'] or 0
-    #         total_tenue = operations.filter(type_operation='tenue').aggregate(Sum('montant'))['montant__sum'] or 0
-
-    #         solde_disponible = total_depot - total_retrait - total_tenue
-
-    #         if montant > solde_disponible:
-    #             raise forms.ValidationError(
-    #                 f"Solde insuffisant pour cette banque : vous ne pouvez pas retirer plus que {solde_disponible:,.0f} FBu dans « {bank} »."
-    #             )
     
     def clean(self):
         cleaned_data = super().clean()

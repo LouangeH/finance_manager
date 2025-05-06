@@ -7,13 +7,6 @@ from django.db.models import Sum
 from django.utils.timezone import datetime
 
 #@login_required
-# def depense_list(request):
-#     depenses = Depense.objects.all().order_by('-date')
-#     paginator = Paginator(depenses, 10)  # 10 achats par page
-#     page_number = request.GET.get('page')
-#     page_obj = paginator.get_page(page_number)
-#     return render(request, 'depenses/depense_list.html', {'page_obj': page_obj, 'depenses': depenses})
-
 def depense_list(request):
     depenses = Depense.objects.all().order_by('-date')
 

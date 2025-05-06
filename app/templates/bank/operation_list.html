@@ -1,73 +1,4 @@
 {% extends "fuel/base.html" %}
-{% comment %} {% load humanize %}
-
-{% block content %}
-<div class="container mt-4">
-    <h3>Historique des opérations bancaires</h3>
-    <a href="{% url 'bankoperation_create' %}" class="btn btn-primary mb-3">Nouvelle opération</a>
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th>Banque</th>
-                <th>Montant</th>
-                <th>Type</th>
-                <th>Motif</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for op in operations %}
-            <tr class="{% if op.type_operation == 'tenue' %}table-warning{% endif %}">
-                <td>{{ op.date|naturaltime }}</td>
-                <td>{{ op.bank }}</td>
-                <td>{{ op.montant|intcomma }} FBu</td>
-                <td>
-                    {% if op.type_operation == 'tenue' %}
-                        <span class="badge bg-warning text-dark">Tenue</span>
-                    {% elif op.type_operation == 'depot' %}
-                        <span class="badge bg-success">Dépôt</span>
-                    {% else %}
-                        <span class="badge bg-danger">Retrait</span>
-                    {% endif %}
-                </td>
-                <td>{{ op.motif }}</td>
-                <td>
-                    {% if op.type_operation != 'tenue' %}
-                        <a href="{% url 'bankoperation_update' op.id %}" class="btn btn-sm btn-outline-primary">Modifier</a>
-                        <a href="{% url 'bankoperation_delete' op.id %}" class="btn btn-sm btn-outline-danger">Supprimer</a>
-                    {% else %}
-                        <span class="text-muted">-</span>
-                    {% endif %}
-                </td>
-            </tr>
-        {% empty %}
-            <tr><td colspan="6" class="text-center">Aucune opération trouvée.</td></tr>
-        {% endfor %}
-        </tbody>
-    </table>
-</div>
-<!-- Pagination -->
-<nav aria-label="Pagination des lapins">
-    <ul class="pagination justify-content-center">
-        {% if page_obj.has_previous %}
-        <li class="page-item">
-            <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Précédent</a>
-        </li>
-        {% endif %}
-        {% for num in page_obj.paginator.page_range %}
-        <li class="page-item {% if num == page_obj.number %}active{% endif %}">
-            <a class="page-link" href="?page={{ num }}">{{ num }}</a>
-        </li>
-        {% endfor %}
-        {% if page_obj.has_next %}
-        <li class="page-item">
-            <a class="page-link" href="?page={{ page_obj.next_page_number }}">Suivant</a>
-        </li>
-        {% endif %}
-    </ul>
-</nav>
-{% endblock %} {% endcomment %}
 
 {% load humanize %}
 
@@ -130,12 +61,10 @@
             </td>
             <td>{{ op.motif }}</td>
             <td>
-                {% comment %} {% if op.type_operation != 'tenue' %} {% endcomment %}
+                
                     <a href="{% url 'bankoperation_update' op.id %}" class="btn btn-sm btn-outline-primary">Modifier</a>
                     <a href="{% url 'bankoperation_delete' op.id %}" class="btn btn-sm btn-outline-danger">Supprimer</a>
-                {% comment %} {% else %} {% endcomment %}
-                    {% comment %} <span class="text-muted">Aucune opération trouvée.</span> {% endcomment %}
-                {% comment %} {% endif %} {% endcomment %}
+                
             </td>
         </tr>
         {% endfor %}
