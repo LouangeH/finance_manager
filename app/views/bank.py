@@ -7,7 +7,7 @@ from django.http import JsonResponse
 from django.db.models import Sum
 from django.utils.timezone import datetime
 
-#@login_required
+@login_required
 def bank_operation_list(request):
     operations = BankOperation.objects.all().order_by('-date')
 
@@ -51,7 +51,7 @@ def bank_operation_list(request):
     }
     return render(request, 'bank/operation_list.html', context)
 
-#@login_required
+@login_required
 def create_bank_operation(request):
     form = BankOperationForm(request.POST or None)
     if form.is_valid():
@@ -74,7 +74,7 @@ def get_bank_solde(request, bank_id):
         return JsonResponse({'solde': 0})
 
 
-#@login_required
+@login_required
 def update_bank_operation(request, pk):
     operation = get_object_or_404(BankOperation, pk=pk)
     if operation.type_operation == 'tenue':
@@ -86,7 +86,7 @@ def update_bank_operation(request, pk):
     return render(request, 'bank/create_operation.html', {'form': form})
 
 
-#@login_required
+@login_required
 def delete_bank_operation(request, pk):
     operation = get_object_or_404(BankOperation, pk=pk)
     if operation.type_operation == 'tenue':

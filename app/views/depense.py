@@ -6,7 +6,7 @@ from django.core.paginator import Paginator
 from django.db.models import Sum
 from django.utils.timezone import datetime
 
-#@login_required
+@login_required
 def depense_list(request):
     depenses = Depense.objects.all().order_by('-date')
 
@@ -40,7 +40,7 @@ def depense_list(request):
     }
     return render(request, 'depenses/depense_list.html', context)
 
-#@login_required
+@login_required
 def create_depense(request):
     form = DepenseForm(request.POST or None)
     if form.is_valid():
@@ -48,7 +48,7 @@ def create_depense(request):
         return redirect('depense_list')
     return render(request, 'depenses/create_depense.html', {'form': form})
 
-#@login_required
+@login_required
 def edit_depense(request, pk):
     depenses = get_object_or_404(Depense, pk=pk)
     form = DepenseForm(request.POST or None, instance=depenses)
@@ -58,7 +58,7 @@ def edit_depense(request, pk):
     
     return render(request, 'depenses/create_depense.html', {'form': form, 'depenses': depenses})
 
-#@login_required
+@login_required
 def delete_depense(request, pk):
     depenses = get_object_or_404(Depense, pk=pk)
     if request.method == 'POST':

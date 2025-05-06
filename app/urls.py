@@ -1,4 +1,5 @@
 from django.urls import path
+from django.contrib.auth import views as auth_views
 from app.views import user, accueil, revenue, depense,bank, cat_bank, cat_depense, cat_revenue
 from app.views import generate_pdf
 
@@ -27,7 +28,7 @@ urlpatterns = [
     path('modifier-depense/<int:pk>/', depense.edit_depense, name='edit_depense'),
     path('supprimer-depense/<int:pk>/', depense.delete_depense, name='delete_depense'),
 
-    path('login/', user.login_view, name='login'),
+    path('accounts/login/', auth_views.LoginView.as_view(), name='login'),
     path('register/', user.register_view, name='register'),
     path('logout/', user.logout_view, name='logout'),
     path('user/', user.user_list, name='user_list'),

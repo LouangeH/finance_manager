@@ -23,7 +23,7 @@ def login_view(request):
 
     return render(request, 'accounts/login.html', {'form': form})
 
-#@login_required
+@login_required
 def user_list(request):
     user = UserProfile.objects.all()
     return render(request, 'accounts/user_list.html', {'user': user})
@@ -39,7 +39,7 @@ def register_view(request):
         return redirect('dashboard')
     return render(request, 'accounts/register.html', {'form': form})
 
-#@login_required
+@login_required
 def edit_user(request, pk):
     user = get_object_or_404(UserProfile, pk=pk)
     form = RegisterForm(request.POST or None, instance=user)
@@ -49,7 +49,7 @@ def edit_user(request, pk):
     
     return render(request, 'accounts/create_user.html', {'form': form, 'user': user})
 
-#@login_required
+@login_required
 def delete_user(request, pk):
     user = get_object_or_404(UserProfile, pk=pk)
     if request.method == 'POST':
@@ -58,7 +58,7 @@ def delete_user(request, pk):
     return render(request, 'accounts/delete_user.html', {'user': user})
 
 
-#@login_required
+@login_required
 def logout_view(request):
     logout(request)
     return redirect('login')

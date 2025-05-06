@@ -1,0 +1,11 @@
+{% extends 'fuel/base_login.html' %}
+
+{% block content %}
+  <h2>Connexion</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Se connecter</button>
+  </form>
+  <p class="mt-2 text-center">Pas de compte ? <a href="{% url 'register' %}">Créer un compte</a></p>
+{% endblock %}

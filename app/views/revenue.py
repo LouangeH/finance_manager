@@ -6,7 +6,7 @@ from django.core.paginator import Paginator
 from django.db.models import Sum
 from django.utils.timezone import datetime
 
-#@login_required
+@login_required
 def revenue_list(request):
     revenues = Revenu.objects.all().order_by('-date')
 
@@ -40,7 +40,7 @@ def revenue_list(request):
     }
     return render(request, 'revenues/revenue_list.html', context)
 
-#@login_required
+@login_required
 def create_revenue(request):
     form = RevenuForm(request.POST or None)
     if form.is_valid():
@@ -48,7 +48,7 @@ def create_revenue(request):
         return redirect('revenue_list')
     return render(request, 'revenues/create_revenue.html', {'form': form})
 
-#@login_required
+@login_required
 def edit_revenue(request, pk):
     revenues = get_object_or_404(Revenu, pk=pk)
     form = RevenuForm(request.POST or None, instance=revenues)
@@ -58,7 +58,7 @@ def edit_revenue(request, pk):
     
     return render(request, 'revenues/create_revenue.html', {'form': form, 'revenues': revenues})
 
-#@login_required
+@login_required
 def delete_revenue(request, pk):
     revenues = get_object_or_404(Revenu, pk=pk)
     if request.method == 'POST':
