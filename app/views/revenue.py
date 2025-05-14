@@ -6,7 +6,7 @@ from django.core.paginator import Paginator
 from django.db.models import Sum
 from django.utils.timezone import datetime
 
-@login_required
+#@login_required
 def revenue_list(request):
     revenues = Revenu.objects.all().order_by('-date')
 
@@ -30,6 +30,13 @@ def revenue_list(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
+    from urllib.parse import urlencode
+
+    query_params = request.GET.copy()
+    if 'page' in query_params:
+        del query_params['page']
+    base_query = urlencode(query_params)
+
     context = {
         'revenues': page_obj,
         'page_obj': page_obj,
@@ -37,10 +44,11 @@ def revenue_list(request):
         'total_filtre': total_filtre,
         'current_year': datetime.today().year,
         'current_month': str(datetime.today().month).zfill(2),
+        'base_query': base_query,
     }
     return render(request, 'revenues/revenue_list.html', context)
 
-@login_required
+#@login_required
 def create_revenue(request):
     form = RevenuForm(request.POST or None)
     if form.is_valid():

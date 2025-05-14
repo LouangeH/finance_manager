@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from app.models import CategorieBank
+
 class BankOperation(models.Model):
     TYPE_CHOICES = [
         ('depot', 'Dépôt'),
@@ -20,3 +21,14 @@ class BankOperation(models.Model):
     class Meta:
         verbose_name = "Opération bancaire"
         verbose_name_plural = "Opérations bancaires"
+
+class BankTransfert(models.Model):
+    banque_source = models.ForeignKey(CategorieBank, related_name="transferts_sortants", on_delete=models.CASCADE)
+    banque_destination = models.ForeignKey(CategorieBank, related_name="transferts_entrants", on_delete=models.CASCADE)
+    montant = models.DecimalField(max_digits=12, decimal_places=0)
+    motif = models.TextField(blank=True)
+    date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Transfert de {self.montant} FBu de {self.banque_source} vers {self.banque_destination} le {self.date.date()}"
+

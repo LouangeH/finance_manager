@@ -3,7 +3,7 @@ from django.shortcuts import render
 from app.models import Depense, Revenu, BankOperation
 from django.contrib.auth.decorators import login_required
 
-@login_required
+#@login_required
 def dashboard(request):
     depenses = Depense.objects.aggregate(Sum('somme'))['somme__sum'] or 0
     revenus = Revenu.objects.aggregate(Sum('somme'))['somme__sum'] or 0

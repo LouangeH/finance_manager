@@ -4,5 +4,5 @@ from .cat_rev import CategorieRevenue
 from .revenu import Revenu
 from .depense import Depense
 from .user import UserProfile
-from .bank import BankOperation
+from .bank import BankOperation, BankTransfert
 from .pdf import RevenuPDF, DepensePDF

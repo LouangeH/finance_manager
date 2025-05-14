@@ -1,31 +1,39 @@
 {% extends "fuel/base.html" %}
-
+{% comment %} {% extends "fuel/base.html" %}
 {% load humanize %}
 
 {% block content %}
 <h2>Historique des opérations bancaires</h2>
 
-<a href="{% url 'create_revenue' %}" class="btn btn-primary mb-3">+ Ajouter un revenu</a>
+<div class="mb-3 d-flex gap-2">
+    <a href="{% url 'bankoperation_create' %}" class="btn btn-success">
+        <i class="fas fa-plus"></i> Ajouter une opération bancaire
+    </a>
+
+    <a href="{% url 'bank_transfert' %}" class="btn text-white" style="background-color:#6f42c1;">
+        <i class="fas fa-exchange-alt me-1"></i> Transférer de l'argent entre comptes
+    </a>
+</div>
 
 <!-- Filtrage -->
-<form id="filter-form" method="get" class="form-inline mb-3">
-    <select name="type" class="form-control mr-2" onchange="this.form.submit()">
-        <option value="">-- Tous les banques --</option>
+<form id="filter-form" method="get" class="form-inline mb-3 d-flex gap-2">
+    <select name="type" class="form-control" onchange="this.form.submit()">
+        <option value="">-- Toutes les banques --</option>
         {% for cat in categories %}
-        <option value="{{ cat.id }}" {% if cat.id|stringformat:"s" == request.GET.type %}selected{% endif %}>
-            {{ cat.categorie }}
-        </option>
+            <option value="{{ cat.id }}" {% if cat.id|stringformat:"s" == request.GET.type %}selected{% endif %}>
+                {{ cat.categorie }}
+            </option>
         {% endfor %}
     </select>
 
-    <select name="operation" class="form-control mr-2" onchange="this.form.submit()">
+    <select name="operation" class="form-control" onchange="this.form.submit()">
         <option value="">-- Tous les types d'opération --</option>
         <option value="depot" {% if request.GET.operation == "depot" %}selected{% endif %}>Dépôt</option>
         <option value="retrait" {% if request.GET.operation == "retrait" %}selected{% endif %}>Retrait</option>
         <option value="tenue" {% if request.GET.operation == "tenue" %}selected{% endif %}>Tenue de compte</option>
     </select>
 
-    <input type="month" name="periode" class="form-control mr-2"
+    <input type="month" name="periode" class="form-control"
            max="{{ current_year }}-{{ current_month }}"
            value="{{ request.GET.periode|default_if_none:current_year|add:"-"|add:current_month }}"
            onchange="this.form.submit()">
@@ -45,7 +53,7 @@
         </tr>
     </thead>
     <tbody>
-    {% for op in operations %}
+        {% for op in operations %}
         <tr class="{% if op.type_operation == 'tenue' %}table-warning{% endif %}">
             <td>{{ op.date|naturaltime }}</td>
             <td>{{ op.bank }}</td>
@@ -61,10 +69,8 @@
             </td>
             <td>{{ op.motif }}</td>
             <td>
-                
-                    <a href="{% url 'bankoperation_update' op.id %}" class="btn btn-sm btn-outline-primary">Modifier</a>
-                    <a href="{% url 'bankoperation_delete' op.id %}" class="btn btn-sm btn-outline-danger">Supprimer</a>
-                
+                <a href="{% url 'bankoperation_update' op.id %}" class="btn btn-sm btn-outline-primary">Modifier</a>
+                <a href="{% url 'bankoperation_delete' op.id %}" class="btn btn-sm btn-outline-danger">Supprimer</a>
             </td>
         </tr>
         {% endfor %}
@@ -86,22 +92,137 @@
         {% if page_obj.has_previous %}
         <li class="page-item">
             <a class="page-link" href="?{% if request.GET.type %}type={{ request.GET.type }}&{% endif %}
+                {% if request.GET.operation %}operation={{ request.GET.operation }}&{% endif %}
                 {% if request.GET.periode %}periode={{ request.GET.periode }}&{% endif %}
                 page={{ page_obj.previous_page_number }}">Précédent</a>
         </li>
         {% endif %}
+
         {% for num in page_obj.paginator.page_range %}
         <li class="page-item {% if num == page_obj.number %}active{% endif %}">
             <a class="page-link" href="?{% if request.GET.type %}type={{ request.GET.type }}&{% endif %}
+                {% if request.GET.operation %}operation={{ request.GET.operation }}&{% endif %}
                 {% if request.GET.periode %}periode={{ request.GET.periode }}&{% endif %}
                 page={{ num }}">{{ num }}</a>
         </li>
         {% endfor %}
+
         {% if page_obj.has_next %}
         <li class="page-item">
             <a class="page-link" href="?{% if request.GET.type %}type={{ request.GET.type }}&{% endif %}
+                {% if request.GET.operation %}operation={{ request.GET.operation }}&{% endif %}
                 {% if request.GET.periode %}periode={{ request.GET.periode }}&{% endif %}
                 page={{ page_obj.next_page_number }}">Suivant</a>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
+{% endblock %} {% endcomment %}
+
+
+{% load humanize %}
+
+{% block content %}
+<h2>Historique des opérations bancaires</h2>
+
+<div class="mb-3 d-flex gap-2">
+    <a href="{% url 'bankoperation_create' %}" class="btn btn-success">
+        <i class="fas fa-plus"></i> Ajouter une opération bancaire
+    </a>
+
+    <a href="{% url 'bank_transfert' %}" class="btn text-white" style="background-color:#6f42c1;">
+        <i class="fas fa-exchange-alt me-1"></i> Transférer de l'argent entre comptes
+    </a>
+</div>
+
+<!-- Filtrage -->
+<form id="filter-form" method="get" class="form-inline mb-3 d-flex gap-2">
+    <select name="type" class="form-control" onchange="this.form.submit()">
+        <option value="">-- Toutes les banques --</option>
+        {% for cat in categories %}
+            <option value="{{ cat.id }}" {% if cat.id|stringformat:"s" == request.GET.type %}selected{% endif %}>
+                {{ cat.categorie }}
+            </option>
+        {% endfor %}
+    </select>
+
+    <select name="operation" class="form-control" onchange="this.form.submit()">
+        <option value="">-- Tous les types d'opération --</option>
+        <option value="depot" {% if request.GET.operation == "depot" %}selected{% endif %}>Dépôt</option>
+        <option value="retrait" {% if request.GET.operation == "retrait" %}selected{% endif %}>Retrait</option>
+        <option value="tenue" {% if request.GET.operation == "tenue" %}selected{% endif %}>Tenue de compte</option>
+    </select>
+
+    <input type="month" name="periode" class="form-control"
+           max="{{ current_year }}-{{ current_month }}"
+           value="{{ request.GET.periode|default_if_none:current_year|add:"-"|add:current_month }}"
+           onchange="this.form.submit()">
+</form>
+
+<!-- Résultats -->
+{% if operations %}
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Banque</th>
+            <th>Montant</th>
+            <th>Type</th>
+            <th>Motif</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for op in operations %}
+        <tr class="{% if op.type_operation == 'tenue' %}table-warning{% endif %}">
+            <td>{{ op.date|naturaltime }}</td>
+            <td>{{ op.bank }}</td>
+            <td>{{ op.montant|intcomma }} FBu</td>
+            <td>
+                {% if op.type_operation == 'tenue' %}
+                    <span class="badge bg-warning text-dark">Tenue</span>
+                {% elif op.type_operation == 'depot' %}
+                    <span class="badge bg-success">Dépôt</span>
+                {% else %}
+                    <span class="badge bg-danger">Retrait</span>
+                {% endif %}
+            </td>
+            <td>{{ op.motif }}</td>
+            <td>
+                <a href="{% url 'bankoperation_update' op.id %}" class="btn btn-sm btn-outline-primary">Modifier</a>
+                <a href="{% url 'bankoperation_delete' op.id %}" class="btn btn-sm btn-outline-danger">Supprimer</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<div class="alert alert-success">
+    Total des opérations filtrées : <strong>{{ total_filtre|intcomma }} FBu</strong>
+</div>
+
+{% else %}
+<div class="alert alert-info">Aucune opération trouvée pour ce filtre.</div>
+{% endif %}
+
+<!-- Pagination -->
+<nav aria-label="Pagination">
+    <ul class="pagination justify-content-center">
+        {% if page_obj.has_previous %}
+        <li class="page-item">
+            <a class="page-link" href="?{{ base_query }}&page={{ page_obj.previous_page_number }}">Précédent</a>
+        </li>
+        {% endif %}
+
+        {% for num in page_obj.paginator.page_range %}
+        <li class="page-item {% if num == page_obj.number %}active{% endif %}">
+            <a class="page-link" href="?{{ base_query }}&page={{ num }}">{{ num }}</a>
+        </li>
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="?{{ base_query }}&page={{ page_obj.next_page_number }}">Suivant</a>
         </li>
         {% endif %}
     </ul>

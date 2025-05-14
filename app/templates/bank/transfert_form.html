@@ -1,0 +1,90 @@
+{% extends "fuel/base.html" %}
+{% comment %} {% block content %}
+<div class="container mt-4">
+    <h3>Transférer des fonds entre banques</h3>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-success">Valider le transfert</button>
+        <a href="{% url 'bankoperation_list' %}" class="btn btn-secondary">Annuler</a>
+    </form>
+</div>
+{% endblock %} {% endcomment %}
+
+{% block content %}
+<div class="container mt-4">
+    <h3>Transférer des fonds entre banques</h3>
+
+    <form method="post" novalidate>
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+        <div class="alert alert-danger">
+            {{ form.non_field_errors }}
+        </div>
+        {% endif %}
+
+        <div class="form-group mb-3">
+            {{ form.banque_source.label_tag }}
+            {{ form.banque_source }}
+            {{ form.banque_source.errors }}
+        </div>
+
+        <div class="form-group mb-3">
+            {{ form.banque_destination.label_tag }}
+            {{ form.banque_destination }}
+            {{ form.banque_destination.errors }}
+        </div>
+
+        <div class="form-group mb-3">
+            {{ form.montant.label_tag }}
+            {{ form.montant }}
+            {{ form.montant.errors }}
+        </div>
+
+        <div class="form-group mb-3">
+            {{ form.motif.label_tag }}
+            {{ form.motif }}
+            {{ form.motif.errors }}
+        </div>
+
+        <button type="submit" class="btn btn-success">Valider le transfert</button>
+        <a href="{% url 'bankoperation_list' %}" class="btn btn-secondary">Annuler</a>
+    </form>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const sourceSelect = document.getElementById('id_banque_source');
+        const destinationSelect = document.getElementById('id_banque_destination');
+
+        function syncOptions() {
+            const selectedSource = sourceSelect.value;
+            const selectedDest = destinationSelect.value;
+
+            // Réactive tout
+            [...destinationSelect.options].forEach(opt => opt.disabled = false);
+            [...sourceSelect.options].forEach(opt => opt.disabled = false);
+
+            // Désactive la banque source dans la destination
+            if (selectedSource) {
+                [...destinationSelect.options].forEach(opt => {
+                    if (opt.value === selectedSource) opt.disabled = true;
+                });
+            }
+
+            // Et inversement
+            if (selectedDest) {
+                [...sourceSelect.options].forEach(opt => {
+                    if (opt.value === selectedDest) opt.disabled = true;
+                });
+            }
+        }
+
+        sourceSelect.addEventListener('change', syncOptions);
+        destinationSelect.addEventListener('change', syncOptions);
+
+        syncOptions(); // Pour précharger si erreur de formulaire
+    });
+</script>
+{% endblock %}

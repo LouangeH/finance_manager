@@ -1,13 +1,13 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from app.models import BankOperation, CategorieBank
-from app.forms import BankOperationForm
+from app.forms import BankOperationForm, BankTransfertForm
 from django.core.paginator import Paginator
 from django.http import JsonResponse
 from django.db.models import Sum
 from django.utils.timezone import datetime
 
-@login_required
+#@login_required
 def bank_operation_list(request):
     operations = BankOperation.objects.all().order_by('-date')
 
@@ -41,6 +41,15 @@ def bank_operation_list(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
+
+    from urllib.parse import urlencode
+
+    query_params = request.GET.copy()
+    if 'page' in query_params:
+        del query_params['page']
+    base_query = urlencode(query_params)
+
+
     context = {
         'operations': page_obj,
         'page_obj': page_obj,
@@ -48,10 +57,12 @@ def bank_operation_list(request):
         'total_filtre': total_filtre,
         'current_year': datetime.today().year,
         'current_month': str(datetime.today().month).zfill(2),
+        'base_query': base_query,
+
     }
     return render(request, 'bank/operation_list.html', context)
 
-@login_required
+#@login_required
 def create_bank_operation(request):
     form = BankOperationForm(request.POST or None)
     if form.is_valid():
@@ -74,7 +85,7 @@ def get_bank_solde(request, bank_id):
         return JsonResponse({'solde': 0})
 
 
-@login_required
+#@login_required
 def update_bank_operation(request, pk):
     operation = get_object_or_404(BankOperation, pk=pk)
     if operation.type_operation == 'tenue':
@@ -86,7 +97,7 @@ def update_bank_operation(request, pk):
     return render(request, 'bank/create_operation.html', {'form': form})
 
 
-@login_required
+#@login_required
 def delete_bank_operation(request, pk):
     operation = get_object_or_404(BankOperation, pk=pk)
     if operation.type_operation == 'tenue':
@@ -95,3 +106,29 @@ def delete_bank_operation(request, pk):
         operation.delete()
         return redirect('bankoperation_list')
     return render(request, 'bank/confirm_delete.html', {'operation': operation})
+
+
+def create_bank_transfert(request):
+    form = BankTransfertForm(request.POST or None)
+    if form.is_valid():
+        transfert = form.save()
+        
+        # Créer une opération de retrait
+        BankOperation.objects.create(
+            bank=transfert.banque_source,
+            type_operation='retrait',
+            montant=transfert.montant,
+            motif=f"Transfert vers {transfert.banque_destination} : {transfert.motif}"
+        )
+
+        # Créer une opération de dépôt
+        BankOperation.objects.create(
+            bank=transfert.banque_destination,
+            type_operation='depot',
+            montant=transfert.montant,
+            motif=f"Transfert depuis {transfert.banque_source} : {transfert.motif}"
+        )
+
+        return redirect('bankoperation_list')
+
+    return render(request, 'bank/transfert_form.html', {'form': form})

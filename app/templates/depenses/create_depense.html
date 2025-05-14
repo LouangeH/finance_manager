@@ -1,12 +1,87 @@
 {% extends "fuel/base.html" %}
+
+{% load static %}
 {% block content %}
 <div class="container mt-4">
-    <h3>{% if form.instance.pk %}Modifier{% else %}Nouvelle{% endif %} depense</h3>
-    <form method="post">
+    <h3>{% if form.instance.pk %}Modifier{% else %}Nouvelle{% endif %} dépense</h3>
+    <form method="post" id="depense-form">
         {% csrf_token %}
-        {{ form.as_p }}
+
+        {% if form.non_field_errors %}
+            <div class="alert alert-danger">
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
+
+        <div class="form-group">
+            {{ form.depense.label_tag }} {{ form.depense }}
+            {{ form.depense.errors }}
+        </div>
+        <br>
+        <div class="form-group">
+            {{ form.description.label_tag }} {{ form.description }}
+            {{ form.description.errors }}
+        </div>
+        <br>
+        <div class="form-group">
+            {{ form.somme.label_tag }} {{ form.somme }}
+            {{ form.somme.errors }}
+        </div>
+        <br>
+        <div class="form-check">
+            {{ form.provenance_banque }} {{ form.provenance_banque.label_tag }}
+            {{ form.provenance_banque.errors }}
+        </div>
+        <br>
+        <div id="banque-fields" style="display: none;">
+            <div class="form-group">
+                {{ form.banque_utilisee.label_tag }} {{ form.banque_utilisee }}
+                {{ form.banque_utilisee.errors }}
+            </div>
+            <div class="alert alert-info" id="solde-info" style="display: none;"></div>
+        </div>
+        <br>
+
         <button type="submit" class="btn btn-success">Enregistrer</button>
         <a href="{% url 'depense_list' %}" class="btn btn-secondary">Annuler</a>
     </form>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const checkbox = document.getElementById('id_provenance_banque');
+        const banqueFields = document.getElementById('banque-fields');
+        const banqueSelect = document.getElementById('id_banque_utilisee');
+        const sommeInput = document.getElementById('id_somme');
+        const soldeInfo = document.getElementById('solde-info');
+
+        const soldes = {{ soldes_json|safe }};
+
+        function updateSoldeInfo() {
+            const banqueId = banqueSelect.value;
+            const solde = soldes[banqueId];
+            if (banqueId && solde !== undefined) {
+                soldeInfo.innerText = `Solde disponible : ${parseFloat(solde).toLocaleString()} FBu`;
+                soldeInfo.style.display = 'block';
+
+            } else {
+                soldeInfo.style.display = 'none';
+            }
+        }
+
+        checkbox.addEventListener('change', () => {
+            banqueFields.style.display = checkbox.checked ? 'block' : 'none';
+        });
+
+        banqueSelect.addEventListener('change', updateSoldeInfo);
+        sommeInput.addEventListener('input', updateSoldeInfo);
+
+        // Affiche la section banque si la checkbox est déjà cochée (ex. après une erreur)
+        if (checkbox.checked) {
+            banqueFields.style.display = 'block';
+        }
+    });
+</script>
 {% endblock %}
+
+

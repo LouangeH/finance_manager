@@ -45,4 +45,5 @@ urlpatterns = [
     path('api/solde-banque/<int:bank_id>/', bank.get_bank_solde, name='get_bank_solde'),
     path('banque/modifier/<int:pk>/', bank.update_bank_operation, name='bankoperation_update'),
     path('banque/supprimer/<int:pk>/', bank.delete_bank_operation, name='bankoperation_delete'),
+    path('banque/transfert/', bank.create_bank_transfert, name='bank_transfert'),
 ]

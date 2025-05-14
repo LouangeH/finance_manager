@@ -5,7 +5,7 @@ from app.forms import CategorieBankForm
 from django.core.paginator import Paginator
 from django.db.models import Sum, Q
 
-@login_required
+#@login_required
 def bank_list(request):
     banks = CategorieBank.objects.order_by('-id')  # ou '-date' si tu as un champ date
     bank_data = []
@@ -32,7 +32,7 @@ def bank_list(request):
     return render(request, 'bank/bank_list.html', {'page_obj': page_obj})
 
 
-@login_required
+#@login_required
 def create_bank(request):
     form = CategorieBankForm(request.POST or None)
     if form.is_valid():
@@ -41,7 +41,7 @@ def create_bank(request):
     return render(request, 'bank/create_bank.html', {'form': form})
 
 
-@login_required
+#@login_required
 def update_bank(request, pk):
     banks = get_object_or_404(CategorieBank, pk=pk)
     form = CategorieBankForm(request.POST or None, instance=banks)
@@ -51,7 +51,7 @@ def update_bank(request, pk):
     return render(request, 'bank/create_bank.html', {'form': form})
 
 
-@login_required
+#@login_required
 def delete_bank(request, pk):
     banks = get_object_or_404(CategorieBank, pk=pk)
     if request.method == 'POST':
