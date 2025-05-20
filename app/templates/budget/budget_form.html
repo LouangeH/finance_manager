@@ -1,0 +1,54 @@
+{% extends 'fuel/base.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h3 class="mb-4">{% if form.instance.pk %}Modifier{% else %}Créer{% endif %} un budget mensuel</h3>
+    <!--d'ici-->
+    {% if form.errors %}
+    <div class="alert alert-danger">
+        <strong>Erreur :</strong>
+        <ul>
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <li>{{ field.label }} : {{ error }}</li>
+                {% endfor %}
+            {% endfor %}
+            {% for error in form.non_field_errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-success">Enregistrer</button>
+    </form>
+    <!--jusqu'ici-->
+
+    {% comment %} <form method="post" class="needs-validation" novalidate>
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        <div class="mb-3">
+            {{ form.mois.label_tag }} {{ form.mois }}
+        </div>
+        <div class="mb-3">
+            {{ form.categorie.label_tag }} {{ form.categorie }}
+        </div>
+        <div class="mb-3">
+            {{ form.montant_planifie.label_tag }} {{ form.montant_planifie }}
+        </div>
+        <div class="mb-3">
+            {{ form.type.label_tag }} {{ form.type }}
+        </div>
+        <div class="mb-3">
+            {{ form.objectif.label_tag }} {{ form.objectif }}
+        </div>
+        <div class="form-check mb-3">
+            {{ form.prioritaire }} {{ form.prioritaire.label_tag }}
+        </div>
+        <button type="submit" class="btn btn-primary">Enregistrer</button>
+        <a href="{% url 'budget_list' %}" class="btn btn-secondary">Annuler</a>
+    </form> {% endcomment %}
+</div>
+{% endblock %}

@@ -7,3 +7,4 @@ from .cat_revenue import *
 from .user import *
 from .bank import *
 from .generate_pdf import *
+from .budget import *

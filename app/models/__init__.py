@@ -6,3 +6,4 @@ from .depense import Depense
 from .user import UserProfile
 from .bank import BankOperation, BankTransfert
 from .pdf import RevenuPDF, DepensePDF
+from .budget import BudgetMensuel

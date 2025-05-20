@@ -1,0 +1,48 @@
+{% load humanize %}
+
+<div class="card shadow mt-5">
+    <div class="card-header bg-info text-white">
+        <h4 class="mb-0">Suivi du Budget Mensuel – {{ mois|date:"F Y" }}</h4>
+        
+    </div>
+    <div class="card-body">
+        {% if budget_data %}
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Catégorie</th>
+                    <th>Budget Prévu</th>
+                    <th>Dépense Réelle</th>
+                    <th>Écart</th>
+                    <th>Statut</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in budget_data %}
+                <tr class="{% if item.alert %}table-danger{% endif %}">
+                    <td>{{ item.categorie }}</td>
+                    <td>{{ item.prevu|intcomma }} FBu</td>
+                    <td>{{ item.reel|intcomma }} FBu</td>
+                    <td>
+                        {% if item.ecart > 0 %}
+                            <span class="text-danger">+{{ item.ecart|intcomma }} FBu</span>
+                        {% else %}
+                            <span class="text-success">{{ item.ecart|intcomma }} FBu</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if item.alert %}
+                            <span class="badge bg-danger">Dépassement</span>
+                        {% else %}
+                            <span class="badge bg-success">OK</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div class="alert alert-info text-center">Aucun budget défini pour ce mois.</div>
+        {% endif %}
+    </div>
+</div>

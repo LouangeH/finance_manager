@@ -1,0 +1,68 @@
+{% extends 'fuel/base.html' %}
+
+{% load humanize %}
+
+{% block content %}
+<div class="container mt-4">
+    <h3 class="mb-3">Budgets mensuels</h3>
+    <a href="{% url 'create_budget' %}" class="btn btn-success mb-3">
+        <i class="fas fa-plus"></i> Ajouter un budget
+    </a>
+
+    {% if budgets %}
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Mois</th>
+                <th>Catégorie</th>
+                <th>Montant</th>
+                <th>Type</th>
+                <th>Objectif</th>
+                <th>Prioritaire</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for budget in budgets %}
+            <tr>
+                <td>{{ budget.mois|date:"F Y" }}</td>
+                <td>{{ budget.categorie }}</td>
+                <td>{{ budget.montant_planifie|intcomma }} FBu</td>
+                <td>{{ budget.get_type_display }}</td>
+                <td>{{ budget.objectif|default:"-" }}</td>
+                <td>{% if budget.prioritaire %}<span class="badge bg-danger">Oui</span>{% else %}<span class="badge bg-success">Non</span>{% endif %}</td>
+                <td>
+                    <a href="{% url 'update_budget' budget.id %}" class="btn btn-sm btn-warning">Modifier</a>
+                    <a href="{% url 'delete_budget' budget.id %}" class="btn btn-sm btn-danger">Supprimer</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Pagination -->
+    <nav>
+        <ul class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Précédent</a>
+                </li>
+            {% endif %}
+            {% for num in page_obj.paginator.page_range %}
+                <li class="page-item {% if num == page_obj.number %}active{% endif %}">
+                    <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                </li>
+            {% endfor %}
+            {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}">Suivant</a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+
+    {% else %}
+        <div class="alert alert-info">Aucun budget n’a encore été enregistré.</div>
+    {% endif %}
+</div>
+{% endblock %}

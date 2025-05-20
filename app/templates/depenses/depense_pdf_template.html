@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load humanize %}
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -24,7 +25,7 @@
         <p><span class="label">Date:</span> {{ depense.date|date:"d/m/Y à H:i" }}</p>
         <p><span class="label">Catégorie:</span> {{ depense.depense.categorie }}</p>
         <p><span class="label">Description:</span> {{ depense.description }}</p>
-        <p><span class="label">Montant:</span> {{ depense.somme }} FBu</p>
+        <p><span class="label">Montant:</span> {{ depense.somme|intcomma }} FBu</p>
     </div>
 
     <div class="footer">

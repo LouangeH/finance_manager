@@ -2,6 +2,7 @@ from django.urls import path
 from django.contrib.auth import views as auth_views
 from app.views import user, accueil, revenue, depense,bank, cat_bank, cat_depense, cat_revenue
 from app.views import generate_pdf
+from app.views.budget import *
 
 urlpatterns = [
     path('', accueil.dashboard, name='dashboard'),
@@ -46,4 +47,10 @@ urlpatterns = [
     path('banque/modifier/<int:pk>/', bank.update_bank_operation, name='bankoperation_update'),
     path('banque/supprimer/<int:pk>/', bank.delete_bank_operation, name='bankoperation_delete'),
     path('banque/transfert/', bank.create_bank_transfert, name='bank_transfert'),
+
+    # Budget
+    path('budgets/', budget_list, name='budget_list'),
+    path('budgets/ajouter/', create_budget, name='create_budget'),
+    path('budgets/modifier/<int:pk>/', update_budget, name='update_budget'),
+    path('budgets/supprimer/<int:pk>/', delete_budget, name='delete_budget'),
 ]
